@@ -1,3 +1,7 @@
+"""
+This file contains the configuration for the training process.
+"""
+
 import torch
 
 class cfg:
