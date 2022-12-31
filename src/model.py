@@ -3,6 +3,21 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class RecSysModel(nn.Module):
+    """
+    RecSysModel is a class that inherits from nn.Module
+
+    n_users:
+    Total number of unique users in the dataset.
+
+    n_movies:
+    Total number of unique movies in the dataset.
+
+    n_factors:
+    Number of latent factors or embedding space to use in the model.
+
+    returns:
+    The output of the model.
+    """
     def __init__(self, n_users, n_movies, n_factors=50):
         super(RecSysModel, self).__init__()
         self.user_factors = nn.Embedding(n_users, n_factors) # n_users = 610, n_factors = 50

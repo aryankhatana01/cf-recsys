@@ -5,6 +5,21 @@ from torch.utils.data import Dataset, DataLoader
 
 
 class MovieDataset(Dataset):
+    """
+    Movie Dataset
+
+    movieId:
+    List of movie ids
+
+    userId:
+    List of user ids
+
+    rating:
+    List of ratings
+
+    return:
+    Dictionary of movieId, userId, rating
+    """
     def __init__(self, movieId, userId, rating):
         self.movieId = movieId
         self.userId = userId
