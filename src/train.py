@@ -10,6 +10,7 @@ from config import cfg
 from tqdm import tqdm
 
 def train_one_epoch(epoch, model, optimizer, scheduler, data_loader, device):
+    print(f"############ TRAINING EPOCH {epoch+1} #################")
     model.train()
     final_loss = 0
 
@@ -24,17 +25,46 @@ def train_one_epoch(epoch, model, optimizer, scheduler, data_loader, device):
         optimizer.step()
         scheduler.step()
         final_loss += loss.item()
-    print(f'Epoch={epoch}, Loss={final_loss/len(data_loader)}')
+    print(f'Epoch={epoch+1}, Train Loss={final_loss/len(data_loader)}')
+
+def valid_one_epoch(epoch, model, data_loader, device):
+    print(f"############ VALIDATION EPOCH {epoch+1} #################")
+    model.eval()
+    final_loss = 0
+
+    for data in tqdm(data_loader, total=len(data_loader)):
+        user_id = data['user_id'].to(device)
+        movie_id = data['movie_id'].to(device)
+        rating = data['rating'].to(device)
+        output = model(user_id, movie_id)
+        loss = F.mse_loss(output, rating.view(-1, 1))
+        final_loss += loss.item()
+    print(f'Epoch={epoch+1}, Validation Loss={final_loss/len(data_loader)}')
+
+
+def preprocess(df):
+    user_ids = df["userId"].unique().tolist()
+    user2user_encoded = {x: i for i, x in enumerate(user_ids)}
+    userencoded2user = {i: x for i, x in enumerate(user_ids)}
+
+    movie_ids = df["movieId"].unique().tolist()
+    movie2movie_encoded = {x: i for i, x in enumerate(movie_ids)}
+    movie_encoded2movie = {i: x for i, x in enumerate(movie_ids)}
+
+    return user2user_encoded, userencoded2user, movie2movie_encoded, movie_encoded2movie
 
 def train():
     df = pd.read_csv('../input/ratingsCleaned.csv') # UserId, MovieId, Rating
 
     # Preprocess the data
-    lbl_users = preprocessing.LabelEncoder() # Encode the user ids
-    lbl_movies = preprocessing.LabelEncoder() # Encode the movie ids
+    # lbl_users = preprocessing.LabelEncoder() # Encode the user ids
+    # lbl_movies = preprocessing.LabelEncoder() # Encode the movie ids
 
-    df['userId'] = lbl_users.fit_transform(df['userId'].values)
-    df['movieId'] = lbl_movies.fit_transform(df['movieId'].values)
+    # df['userId'] = lbl_users.fit_transform(df['userId'].values)
+    # df['movieId'] = lbl_movies.fit_transform(df['movieId'].values)
+    user2user_encoded, userencoded2user, movie2movie_encoded, movie_encoded2movie = preprocess(df)
+    df["userId"] = df["userId"].map(user2user_encoded)
+    df["movieId"] = df["movieId"].map(movie2movie_encoded)
 
     # Split the data into train and test
     df_train, df_test = model_selection.train_test_split(
@@ -60,8 +90,8 @@ def train():
 
     # Intitailizing the model
     model = RecSysModel(
-        n_users=len(lbl_users.classes_),
-        n_movies=len(lbl_movies.classes_)
+        n_users=len(user2user_encoded),
+        n_movies=len(movie_encoded2movie)
     )
 
     # print(model)
@@ -107,6 +137,9 @@ def train():
     # Training the model
     for epoch in range(cfg.n_epochs):
         train_one_epoch(epoch, model, optimizer, scheduler, train_loader, device)
+
+        with torch.no_grad():
+            valid_one_epoch(epoch, model, valid_loader, device)
 
 if __name__ == "__main__":
     train()
