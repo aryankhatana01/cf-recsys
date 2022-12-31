@@ -15,7 +15,7 @@ class MovieDataset(Dataset):
 
     def __getitem__(self, idx):
         user_id = self.userId[idx]
-        movie_id = self.userId[idx]
+        movie_id = self.movieId[idx]
         rating = self.rating[idx]
         return {
             'user_id': torch.tensor(user_id, dtype=torch.long),
