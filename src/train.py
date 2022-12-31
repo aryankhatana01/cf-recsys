@@ -12,6 +12,7 @@ from dataset import MovieDataset
 from model import RecSysModel
 from config import cfg
 from tqdm import tqdm
+import utils
 
 def train_one_epoch(epoch, model, optimizer, scheduler, data_loader, device):
     print(f"############ TRAINING EPOCH {epoch+1} #################")
@@ -144,6 +145,8 @@ def train():
 
         with torch.no_grad():
             valid_one_epoch(epoch, model, valid_loader, device)
+    
+    utils.save_checkpoint(model, cfg.model_dir)
 
 if __name__ == "__main__":
     train()

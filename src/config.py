@@ -11,3 +11,4 @@ class cfg:
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     optimizer = torch.optim.Adam
     scheduler = torch.optim.lr_scheduler.OneCycleLR
+    model_dir = 'model.pth'
