@@ -143,12 +143,27 @@ def train():
 
     # Training the model
     for epoch in range(cfg.n_epochs):
-        train_one_epoch(epoch, model, optimizer, scheduler, train_loader, device)
+        train_one_epoch(
+            epoch, 
+            model, 
+            optimizer, 
+            scheduler, 
+            train_loader, 
+            device
+        )
 
         with torch.no_grad():
-            valid_one_epoch(epoch, model, valid_loader, device)
+            valid_one_epoch(
+                epoch, 
+                model, 
+                valid_loader, 
+                device
+            )
     
-    utils.save_checkpoint(model, cfg.model_dir)
+    utils.save_checkpoint(
+        model, 
+        cfg.model_dir
+    )
 
 if __name__ == "__main__":
     train()
