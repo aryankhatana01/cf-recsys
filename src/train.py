@@ -60,6 +60,8 @@ def preprocess(df):
 
 def train():
     df = pd.read_csv('../input/ratingsCleaned.csv') # UserId, MovieId, Rating
+    df2 = {'userId': 5000000, 'movieId': 123, 'rating': 1}
+    df = df.append(df2, ignore_index = True)
 
     # Preprocess the data
     # lbl_users = preprocessing.LabelEncoder() # Encode the user ids
