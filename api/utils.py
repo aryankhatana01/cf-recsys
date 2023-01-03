@@ -6,7 +6,7 @@ import turicreate as tc
 import pandas as pd
 
 # Defining a userId
-userId = 5000000
+# userId = 5000000
 
 # utility function to load the model
 def load_model(model_dir: str):
@@ -34,7 +34,7 @@ def create_userIds_list(userId: int, length: int):
     return [userId] * length
 
 # Defining a new user with their ratings
-def create_new_user_ratings(movieIds: list, ratings: list):
+def create_new_user_ratings(movieIds: list, ratings: list, userId: int):
     userIds = create_userIds_list(userId, len(movieIds))
     new_user_ratings = tc.SFrame({
         'movieId': movieIds,
@@ -44,7 +44,7 @@ def create_new_user_ratings(movieIds: list, ratings: list):
     return new_user_ratings
 
 # A function to make recommendations
-def make_recommendations(model, new_user_ratings):
+def make_recommendations(model, new_user_ratings, userId):
     recommendations = model.recommend([userId], new_observation_data=new_user_ratings)
     list_of_recommandations = list(recommendations['movieId'])
     return list_of_recommandations
