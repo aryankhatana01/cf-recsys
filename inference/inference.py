@@ -9,6 +9,13 @@ from model import RecSysModel
 from config import cfg
 
 def load_model(model, model_dir):
+    """
+    args:
+        model: the model
+        model_dir: path to the model
+    returns:
+        model: the model
+    """
     state_dict = torch.load(model_dir,
                             map_location=torch.device('cpu'))  # ensure all storage are on gpu
     model.load_state_dict(state_dict)
@@ -16,6 +23,15 @@ def load_model(model, model_dir):
     return model
 
 def preprocess(df):
+    """
+    args:
+        df: the dataframe
+    returns:
+        user2user_encoded: a dictionary of userIds and their corresponding encoded values
+        userencoded2user: a dictionary of encoded userIds and their corresponding values
+        movie2movie_encoded: a dictionary of movieIds and their corresponding encoded values
+        movie_encoded2movie: a dictionary of encoded movieIds and their corresponding values
+    """
     user_ids = df["userId"].unique().tolist()
     user2user_encoded = {x: i for i, x in enumerate(user_ids)}
     userencoded2user = {i: x for i, x in enumerate(user_ids)}
