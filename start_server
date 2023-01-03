@@ -1,3 +1,3 @@
 #!/bin/bash
 
-uvicorn api.api:app --reload
+python3 -m uvicorn api.api:app --reload
