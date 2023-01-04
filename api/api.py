@@ -7,6 +7,7 @@ uvicorn api:app --reload
 
 from typing import Union, List
 from fastapi import FastAPI, Query
+from pydantic import BaseModel
 import utils
 
 app = FastAPI()
@@ -16,6 +17,10 @@ model_path = '../turimodel/movie_recs.model'
 userId = 5000000
 #######################
 
+class Recommendation(BaseModel):
+    movieIds: List[int]
+    ratings: List[float]
+
 # Loading the model
 model = utils.load_model(model_path)
 
@@ -23,12 +28,19 @@ model = utils.load_model(model_path)
 def read_root():
     return {"Hello": "World"}
 
-@app.get("/recommend")
-def create_pred(movieIds: List[int] = Query(None), ratings: List[int] = Query(None)):
-    new_user_ratings = utils.create_new_user_ratings(movieIds, ratings, userId)
+# @app.get("/recommend")
+# def create_pred(movieIds: List[int] = Query(None), ratings: List[int] = Query(None)):
+#     new_user_ratings = utils.create_new_user_ratings(movieIds, ratings, userId)
+#     list_of_recommandations = utils.make_recommendations(model, new_user_ratings, userId)
+#     list_of_movie_titles = utils.getTitlesFromMovieIds(list_of_recommandations)
+#     # print(list_of_recommandations)
+#     return {"recommendations": list_of_movie_titles}
+
+@app.post("/recommend")
+def create_pred(recommendation: Recommendation):
+    new_user_ratings = utils.create_new_user_ratings(recommendation.movieIds, recommendation.ratings, userId)
     list_of_recommandations = utils.make_recommendations(model, new_user_ratings, userId)
     list_of_movie_titles = utils.getTitlesFromMovieIds(list_of_recommandations)
-    # print(list_of_recommandations)
     return {"recommendations": list_of_movie_titles}
 
 @app.get("/sum")
