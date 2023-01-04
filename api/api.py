@@ -10,6 +10,7 @@ from fastapi import FastAPI, Query
 from pydantic import BaseModel
 import utils
 from fastapi.middleware.cors import CORSMiddleware
+import pymongo
 
 app = FastAPI()
 
@@ -30,6 +31,21 @@ app.add_middleware(
 model_path = '../turimodel/movie_recs.model'
 userId = 5000000
 #######################
+
+# Connect to the movies database
+client = pymongo.MongoClient("mongodb+srv://aryankhatana01:Karyan123@cluster0.xogmpy8.mongodb.net/?retryWrites=true&w=majority")
+db = client["movies"]
+
+@app.get("/search_movies")
+def search_movies(term: str):
+    # Search for movies that match the search term
+    movies_cursor = db.movies.find({"title": {"$regex": term, "$options": "i"}})
+    movies = []
+    for movie in movies_cursor:
+        movies.append(movie)
+    for movie in movies:
+        del movie['_id']
+    return {"search_results": movies}
 
 class Recommendation(BaseModel):
     movieIds: List[int]

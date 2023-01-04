@@ -76,4 +76,5 @@ dependencies:
       - tqdm==4.64.1
       - scikit-learn==1.0.2
       - SQLAlchemy==1.4.46
+      - pymongo==4.3.3
 prefix: /Users/0x4ry4n/miniconda3/envs/py37
