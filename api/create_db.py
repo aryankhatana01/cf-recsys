@@ -1,3 +1,7 @@
+"""
+This script creates a MongoDB database called movies and a collection called movies.
+"""
+
 import pandas as pd
 import pymongo
 
