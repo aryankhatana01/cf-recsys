@@ -1,18 +1,20 @@
 import React from "react";
 import './SearchBar.css';
-import { useState, createContext, useContext } from 'react';
+import { useState, useContext } from 'react';
+import SelectedMovieIdsContext from "../selectmoviesIdsContext/SelectedMovieIdsContext";
 
 // Create a context to share the selected movieIds
-export const SelectedMovieIdsContext = createContext();
+// export const SelectedMovieIdsContext = createContext();
 
-export function useSelectedMovieIds() {
-  return useContext(SelectedMovieIdsContext);
-}
+// export function useSelectedMovieIds() {
+//   return useContext(SelectedMovieIdsContext);
+// }
 
-const SearchBar = () => {
+const SearchBar = (props) => {
     const [search, setSearch] = useState('');
     const [results, setResults] = useState([]);
-    const [selectedMovieIds, setSelectedMovieIds] = useState([]);
+    // const [selectedMovieIds, setSelectedMovieIds] = useState([]);
+    const selectedMovieIds = useContext(SelectedMovieIdsContext);
     const handleSearch = () => {
         // Make a request to the API with the search query
         fetch(`http://127.0.0.1:8000/search_movies?term=${search}`)
@@ -25,7 +27,7 @@ const SearchBar = () => {
     const handleMovieClick = movieId => {
     // Update the selected movieIds with the movieId
         if (!selectedMovieIds.includes(movieId)) {
-            setSelectedMovieIds([...selectedMovieIds, movieId]);
+            props.setSelectedMovieIds([...selectedMovieIds, movieId]);
         }
     };
     return (
@@ -36,17 +38,17 @@ const SearchBar = () => {
             onChange={event => setSearch(event.target.value)}
             />
             <button onClick={handleSearch}>Search</button>
-            <SelectedMovieIdsContext.Provider value={selectedMovieIds}>
-                {Object.values(results).map(movie => (
-                <div key={movie.movieId} 
-                onClick={() => handleMovieClick(movie.movieId)} 
-                style={{ cursor: 'pointer' }}>
-                    {movie.title}
-                </div>
-                ))}
-                {/* <h1>{results}</h1> */}
-                <div>Selected movie IDs: {selectedMovieIds.join(', ')}</div>
-            </SelectedMovieIdsContext.Provider>
+            {/* <SelectedMovieIdsContext.Provider value={selectedMovieIds}> */}
+            {Object.values(results).map(movie => (
+            <div key={movie.movieId} 
+            onClick={() => handleMovieClick(movie.movieId)} 
+            style={{ cursor: 'pointer' }}>
+                {movie.title}
+            </div>
+            ))}
+            {/* <h1>{results}</h1> */}
+            <div>Selected movie IDs: {selectedMovieIds.join(', ')}</div>
+            {/* </SelectedMovieIdsContext.Provider> */}
         </div>
     )
 }

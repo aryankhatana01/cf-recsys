@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import './Navbar.css';
 import {
@@ -9,11 +9,12 @@ import {
 
 import SearchBar from '../searchbar/SearchBar';
 import List from '../list/List';
+import SelectedMovieIdsContext from "../selectmoviesIdsContext/SelectedMovieIdsContext";
 
 const Navbar = () => {
 
     // const [toggleMenu, setToggleMenu] = useState(false);
-
+    const [selectedMovieIds, setSelectedMovieIds] = useState([]);
     return (
         <div className="navbar">
             <a href="/home"><svg className="logo" width="127" height="35" viewBox="0 0 127 35" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,10 +44,12 @@ const Navbar = () => {
                         <Link to="/search" className="nav-link-buttons">Search</Link>
                     </li>
                 </ul>
-                <Routes>
-                    <Route path="/list" element={<List />} />
-                    <Route path="/search" element={<SearchBar />} />
-                </Routes>
+                <SelectedMovieIdsContext.Provider value={selectedMovieIds}>
+                    <Routes>
+                        <Route path="/list" element={<List />} />
+                        <Route path="/search" element={<SearchBar setSelectedMovieIds={setSelectedMovieIds}/>} />
+                    </Routes>
+                </SelectedMovieIdsContext.Provider>
             </div>
             {/* <div button className="navbar__button">
                 <button className="button">Get Started</button>

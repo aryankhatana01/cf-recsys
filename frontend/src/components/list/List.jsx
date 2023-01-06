@@ -10,7 +10,7 @@ const List = () => {
     // }
     return (
         <div className="my-list">
-            <div>Selected movie IDs: {selectedMovieIds}</div>;
+            <div>Selected movie IDs: {selectedMovieIds.join(', ')}</div>;
         </div>
     )
 }
