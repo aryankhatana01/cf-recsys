@@ -4,17 +4,15 @@ import { useState } from 'react';
 
 const GetRecommendationsButton = (props) => {
     const [recommendations, setRecommendations] = useState([]);
+    const selectedMovieIds = props.selectedMovieIds;
+    const ratings = Array(props.selectedMovieIds.length).fill(5);
 
     const fetchRecommendations = async () => {
         const response = await fetch('http://localhost:8000/recommend', {
             method: 'POST',
             body: JSON.stringify({
-                "movieIds": [
-                    5816, 8368, 40815
-                ],
-                "ratings": [
-                    5, 5, 5
-                ]
+                "movieIds": selectedMovieIds,
+                "ratings": ratings
             }),
             headers: {
                 'Content-Type': 'application/json',
