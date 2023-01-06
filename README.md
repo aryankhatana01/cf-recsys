@@ -9,3 +9,5 @@ To run the API follow these steps:
     - Check the box which says ```run with Rosetta```
     - Install the Intel version of Miniconda and create a new environment with the ```environment.yml``` file in this repo.
     - As a sanity check run ```pip3 install -r requirements.txt``` and make sure the ***Python version is 3.7***
+
+After running the API go into the frontend folder in a different terminal and start the frontend using ```npm run start```
