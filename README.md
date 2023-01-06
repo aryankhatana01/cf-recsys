@@ -11,3 +11,5 @@ To run the API follow these steps:
     - As a sanity check run ```pip3 install -r requirements.txt``` and make sure the ***Python version is 3.7***
 
 After running the API go into the frontend folder in a different terminal and start the frontend using ```npm run start```
+
+A demo of this project can be found here: https://youtu.be/MQSdSy4xQL4
