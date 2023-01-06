@@ -22,13 +22,13 @@ const Navbar = () => {
             <circle cx="14" cy="18" r="14" fill="url(#paint1_linear_3_6)"/>
             <defs>
             <linearGradient id="paint0_linear_3_6" x1="15.55" y1="36.55" x2="33.75" y2="18" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#B42144"/>
-            <stop offset="1" stop-color="#FF6262" stop-opacity="0.62"/>
+            <stop stopColor="#B42144"/>
+            <stop offset="1" stopColor="#FF6262" stopOpacity="0.62"/>
             </linearGradient>
             <linearGradient id="paint1_linear_3_6" x1="17.5" y1="39" x2="-2.45" y2="25.7" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#B42144"/>
-            <stop offset="0.414158" stop-color="#BA2D60" stop-opacity="0.8849"/>
-            <stop offset="1" stop-color="#C73333" stop-opacity="0.62"/>
+            <stop stopColor="#B42144"/>
+            <stop offset="0.414158" stopColor="#BA2D60" stopOpacity="0.8849"/>
+            <stop offset="1" stopColor="#C73333" stopOpacity="0.62"/>
             </linearGradient>
             </defs>
             </svg></a>
