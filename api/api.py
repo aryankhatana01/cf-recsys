@@ -47,9 +47,13 @@ def search_movies(term: str):
         del movie['_id']
     return {"search_results": movies}
 
+# Defining the input parameters for Recommendation
 class Recommendation(BaseModel):
     movieIds: List[int]
     ratings: List[float]
+
+class MovieId(BaseModel):
+    movieIds: List[int]
 
 # Loading the model
 model = utils.load_model(model_path)
@@ -72,6 +76,11 @@ def create_pred(recommendation: Recommendation):
     list_of_recommandations = utils.make_recommendations(model, new_user_ratings, userId)
     list_of_movie_titles = utils.getTitlesFromMovieIds(list_of_recommandations)
     return {"recommendations": list_of_movie_titles}
+
+@app.post("/getMovieTitle")
+def getMovieTitle(movieIdsC: MovieId):
+    movie_titles = utils.getTitlesFromMovieIds(movieIdsC.movieIds)
+    return {"movie_title": movie_titles}
 
 @app.get("/sum")
 def add(q: List[int] = Query(None)):
