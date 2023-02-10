@@ -12,4 +12,6 @@ To run the API follow these steps:
 
 After running the API go into the frontend folder in a different terminal and start the frontend using ```npm run start```
 
+[I know the UI is really bad :) ]
+
 A demo of this project can be found here: [demo](https://drive.google.com/file/d/13C8LEDS8bwn4tPmYw-3rn2BH5Cucsw2e/view?usp=share_link)
